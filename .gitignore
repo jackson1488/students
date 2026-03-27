@@ -20,6 +20,8 @@ dist/
 build/
 frontend/dist/
 frontend/dist-web/
+frontend/dist-web-*/
+frontend/.expo/
 
 # Local runtime data
 backend/database.db
