@@ -11,8 +11,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "export:web": "expo export --platform web",
-    "export:web:pages": "expo export --platform web && node scripts/prepare-pages.js",
-    "export:web:pwa": "expo export --platform web && node scripts/setup-pwa.js",
+    "export:web:pages": "expo export --platform web && node scripts/prepare-pages.js && node scripts/setup-pwa.js dist",
+    "export:web:pwa": "expo export --platform web && node scripts/setup-pwa.js dist",
     "build:android:arm64:apk": "eas build --platform android --profile android-arm64-apk",
     "build:android:arm64:apk:clear": "eas build --platform android --profile android-arm64-apk --clear-cache"
   },

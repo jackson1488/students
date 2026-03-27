@@ -32,8 +32,8 @@ const ICON_SOURCES = {
 const MANIFEST = {
   name: "EDU Kernel",
   short_name: "EDU Kernel",
-  start_url: "/",
-  scope: "/",
+  start_url: "./",
+  scope: "./",
   display: "standalone",
   display_override: ["standalone", "minimal-ui", "browser"],
   orientation: "portrait",
@@ -42,13 +42,13 @@ const MANIFEST = {
   description: "EDU Kernel — student accounting system",
   icons: [
     {
-      src: "/icon-192.png",
+      src: "./icon-192.png",
       sizes: "192x192",
       type: "image/png",
       purpose: "any maskable",
     },
     {
-      src: "/icon-512.png",
+      src: "./icon-512.png",
       sizes: "512x512",
       type: "image/png",
       purpose: "any maskable",
@@ -57,7 +57,7 @@ const MANIFEST = {
 };
 
 const SW_CONTENT = `const CACHE_NAME = "edu-kernel-pwa-v1";
-const APP_SHELL = ["/", "/index.html", "/manifest.webmanifest", "/icon-192.png", "/icon-512.png"];
+const APP_SHELL = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -83,7 +83,7 @@ self.addEventListener("fetch", (event) => {
         caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy)).catch(() => {});
         return response;
       })
-      .catch(() => caches.match(event.request).then((cached) => cached || caches.match("/index.html")))
+      .catch(() => caches.match(event.request).then((cached) => cached || caches.match("./index.html")))
   );
 });
 `;
@@ -123,9 +123,9 @@ function patchHtml(targetDir) {
       tag: '<meta name="apple-mobile-web-app-status-bar-style" content="default">',
     },
     { check: 'name="apple-mobile-web-app-title"', tag: '<meta name="apple-mobile-web-app-title" content="EDU Kernel">' },
-    { check: 'rel="manifest"', tag: '<link rel="manifest" href="/manifest.webmanifest" />' },
-    { check: 'rel="apple-touch-icon"', tag: '<link rel="apple-touch-icon" href="/apple-touch-icon.png" />' },
-    { check: 'href="/favicon.png"', tag: '<link rel="icon" type="image/png" sizes="64x64" href="/favicon.png" />' },
+    { check: 'rel="manifest"', tag: '<link rel="manifest" href="./manifest.webmanifest" />' },
+    { check: 'rel="apple-touch-icon"', tag: '<link rel="apple-touch-icon" href="./apple-touch-icon.png" />' },
+    { check: 'href="./favicon.png"', tag: '<link rel="icon" type="image/png" sizes="64x64" href="./favicon.png" />' },
   ];
 
   tags.forEach(({ check, tag }) => {
@@ -146,7 +146,7 @@ function patchHtml(targetDir) {
   const swScript = `<script>
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", function () {
-    navigator.serviceWorker.register("/sw.js").catch(function () {});
+    navigator.serviceWorker.register("./sw.js").catch(function () {});
   });
 }
 </script>`;
