@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "EDU Kernel",
+    "slug": "student-accounting-frontend",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "edukernel",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#f5f5f0"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "icon": "./assets/icon.png"
+    },
+    "android": {
+      "softwareKeyboardLayoutMode": "resize",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#f5f5f0"
+      }
+    },
+    "web": {
+      "name": "EDU Kernel",
+      "shortName": "EDU Kernel",
+      "display": "standalone",
+      "backgroundColor": "#f5f5f0",
+      "themeColor": "#121212",
+      "favicon": "./assets/favicon.png"
+    }
+  }
+}
