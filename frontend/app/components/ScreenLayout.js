@@ -27,7 +27,8 @@ export default function ScreenLayout({
   avoidKeyboard = true,
   keyboardVerticalOffset = 0,
 }) {
-  const { theme } = useThemeMode();
+  const { theme, mode } = useThemeMode();
+  const isAurora = mode === "aurora";
   const canUsePullToRefresh = Platform.OS !== "web" && typeof onRefresh === "function";
 
   const content = scroll ? (
@@ -65,6 +66,13 @@ export default function ScreenLayout({
         },
       ]}
     >
+      {isAurora ? (
+        <View pointerEvents="none" style={styles.auroraLayer}>
+          <View style={[styles.auroraBlob, styles.auroraBlobA, { backgroundColor: theme.colors.auroraGlowA }]} />
+          <View style={[styles.auroraBlob, styles.auroraBlobB, { backgroundColor: theme.colors.auroraGlowB }]} />
+          <View style={[styles.auroraBlob, styles.auroraBlobC, { backgroundColor: theme.colors.auroraGlowC }]} />
+        </View>
+      ) : null}
       {avoidKeyboard && Platform.OS !== "web" ? (
         <KeyboardAvoidingView
           style={styles.flex}
@@ -83,6 +91,32 @@ export default function ScreenLayout({
 const styles = StyleSheet.create({
   flex: {
     flex: 1,
+  },
+  auroraLayer: {
+    ...StyleSheet.absoluteFillObject,
+    overflow: "hidden",
+  },
+  auroraBlob: {
+    position: "absolute",
+    borderRadius: 999,
+  },
+  auroraBlobA: {
+    width: 380,
+    height: 380,
+    top: -140,
+    left: -70,
+  },
+  auroraBlobB: {
+    width: 440,
+    height: 440,
+    top: 90,
+    right: -220,
+  },
+  auroraBlobC: {
+    width: 360,
+    height: 360,
+    bottom: -170,
+    left: "25%",
   },
   content: {
     padding: 14,
