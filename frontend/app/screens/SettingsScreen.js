@@ -73,6 +73,12 @@ export default function SettingsScreen({ navigation }) {
             variant={mode === "dark" ? "primary" : "ghost"}
             style={styles.smallBtn}
           />
+          <AppButton
+            title={t("auroraTheme")}
+            onPress={() => setThemeMode("aurora")}
+            variant={mode === "aurora" ? "primary" : "ghost"}
+            style={styles.smallBtn}
+          />
         </View>
 
         <Text style={[styles.subLabel, { color: theme.colors.textMuted, fontFamily: theme.fonts.medium }]}>

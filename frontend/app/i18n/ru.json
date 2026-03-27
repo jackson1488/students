@@ -238,6 +238,7 @@
   "language": "Язык",
   "lightTheme": "Светлая",
   "darkTheme": "Тёмная",
+  "auroraTheme": "Северное сияние",
   "changePassword": "Сменить пароль",
   "openSupport": "Открыть чат поддержки",
   "passwordChanged": "Пароль обновлён",

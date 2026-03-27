@@ -238,6 +238,7 @@
   "language": "Language",
   "lightTheme": "Light",
   "darkTheme": "Dark",
+  "auroraTheme": "Aurora",
   "changePassword": "Change password",
   "openSupport": "Open support chat",
   "passwordChanged": "Password updated",

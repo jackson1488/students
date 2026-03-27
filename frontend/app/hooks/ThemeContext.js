@@ -23,6 +23,7 @@ import { buildNavigationTheme, themes } from "../styles/theme";
 
 const STORAGE_KEY = "@student_system_theme";
 const ThemeContext = createContext(null);
+const ALLOWED_MODES = ["light", "dark", "aurora"];
 
 export function ThemeProvider({ children }) {
   const [mode, setMode] = useState("light");
@@ -32,7 +33,7 @@ export function ThemeProvider({ children }) {
     (async () => {
       try {
         const saved = await AsyncStorage.getItem(STORAGE_KEY);
-        if (saved === "light" || saved === "dark") {
+        if (ALLOWED_MODES.includes(saved)) {
           setMode(saved);
         }
       } finally {
@@ -42,13 +43,14 @@ export function ThemeProvider({ children }) {
   }, []);
 
   const setThemeMode = async (nextMode) => {
-    if (nextMode !== "light" && nextMode !== "dark") return;
+    if (!ALLOWED_MODES.includes(nextMode)) return;
     setMode(nextMode);
     await AsyncStorage.setItem(STORAGE_KEY, nextMode);
   };
 
   const toggleTheme = async () => {
-    const nextMode = mode === "light" ? "dark" : "light";
+    const modeIndex = ALLOWED_MODES.indexOf(mode);
+    const nextMode = ALLOWED_MODES[(modeIndex + 1) % ALLOWED_MODES.length];
     await setThemeMode(nextMode);
   };
 
