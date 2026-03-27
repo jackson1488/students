@@ -8,6 +8,7 @@ Koyeb will build from `backend/Dockerfile`.
 - Builder: Dockerfile
 - Dockerfile path: `backend/Dockerfile`
 - Exposed port: `8000` (or use `PORT` env)
+- Health check path: `/health`
 
 ## 3) Set environment variables in Koyeb
 Required:
@@ -34,3 +35,24 @@ You need to apply SQL once:
 - `backend/supabase/02_data.sql`
 
 Then backend works with Supabase only.
+
+## 6) Required Koyeb settings
+
+- Region: closest to your users.
+- Instance: free/starter (for test).
+- Auto deploy: ON (optional).
+- Environment variables:
+  - `SECRET_KEY`
+  - `DATABASE_URL` (pooler URI)
+  - `STORAGE_BACKEND=supabase`
+  - `SUPABASE_URL`
+  - `SUPABASE_SERVICE_ROLE_KEY`
+  - `SUPABASE_STORAGE_BUCKET=edu-kernel`
+  - `SUPABASE_STORAGE_PREFIX=uploads`
+  - `SUPABASE_STORAGE_PUBLIC=true`
+  - `SUPABASE_STORAGE_AUTO_CREATE_BUCKET=true`
+
+## 7) After deploy
+
+- Open: `https://<your-koyeb-domain>/health` -> should return `{"status":"ok"}`.
+- In frontend change API base URL from localhost to your Koyeb backend URL.

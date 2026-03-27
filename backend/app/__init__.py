@@ -26,7 +26,7 @@ import os
 import threading
 import time
 
-from flask import Flask
+from flask import Flask, jsonify
 from sqlalchemy import text
 
 from config import Config
@@ -493,6 +493,10 @@ def create_app() -> Flask:
 
     configure_cors(app)
     register_blueprints(app)
+
+    @app.get("/health")
+    def healthcheck():
+        return jsonify({"status": "ok"}), 200
 
     @app.before_request
     def _boot_background_workers():
