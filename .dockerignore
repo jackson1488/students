@@ -1,0 +1,28 @@
+.git
+.gitignore
+
+# Python virtualenvs and caches
+**/.venv
+**/__pycache__
+**/*.pyc
+**/*.pyo
+**/*.pyd
+
+# Secrets and local env
+**/.env
+**/.env.*
+
+# Local databases and uploads
+backend/database.db
+backend/uploads
+
+# Frontend heavy artifacts (backend deploy does not need them)
+frontend/node_modules
+frontend/dist
+frontend/dist-web
+frontend/dist-*
+
+# OS/editor files
+.DS_Store
+.idea
+.vscode
