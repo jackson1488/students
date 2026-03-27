@@ -22,6 +22,8 @@ import { Platform } from "react-native";
 
 import i18n from "../i18n";
 
+const DEFAULT_REMOTE_API_URL = "https://shaggy-camille-studybtk-4bfea796.koyeb.app";
+
 function extractHost(value) {
   if (!value || typeof value !== "string") return null;
 
@@ -42,6 +44,11 @@ function inferDeviceHost() {
 function resolveBaseURL() {
   const envBaseUrl = process.env.EXPO_PUBLIC_API_URL;
   if (envBaseUrl) return envBaseUrl;
+
+  const useLocalApi = String(process.env.EXPO_PUBLIC_USE_LOCAL_API || "").trim() === "1";
+  if (!useLocalApi) {
+    return DEFAULT_REMOTE_API_URL;
+  }
 
   if (Platform.OS === "web" && typeof window !== "undefined") {
     const host = window.location.hostname || "localhost";
