@@ -168,6 +168,44 @@ export default function LibraryScreen({ navigation }) {
 
   const pageHistoryRef = useRef([]);
 
+  const loadCatalog = useCallback(
+    async (overrides = {}) => {
+      const nextQuery =
+        overrides.query !== undefined ? String(overrides.query || "").trim() : String(queryValue || "").trim();
+      const nextGenre =
+        overrides.genre !== undefined ? String(overrides.genre || "").trim() : String(selectedGenre || "").trim();
+      const nextPage = Number(overrides.page !== undefined ? overrides.page : page) || 1;
+
+      setLoading(true);
+      try {
+        const data = await fetchBookCatalog({
+          q: nextQuery || DEFAULT_QUERY,
+          subject: nextGenre || undefined,
+          page: nextPage,
+          limit: DEFAULT_LIMIT,
+        });
+
+        const normalizedItems = (Array.isArray(data?.items) ? data.items : []).map((item) => normalizeBook(item));
+        setCatalogItems(normalizedItems);
+        setGenres(Array.isArray(data?.genres) ? data.genres.slice(0, 18) : []);
+        setHasMore(Boolean(data?.has_more));
+        setCatalogTotal(Number(data?.total) || 0);
+      } catch (error) {
+        setCatalogItems([]);
+        setGenres([]);
+        setHasMore(false);
+        setCatalogTotal(0);
+        if (!overrides.silent) {
+          const userMessage = error?.response?.data?.error || t("unknownError");
+          Alert.alert(t("library"), userMessage);
+        }
+      } finally {
+        setLoading(false);
+      }
+    },
+    [page, queryValue, selectedGenre, t]
+  );
+
   const applyLibraryModeState = useCallback(
     async (nextMode, options = {}) => {
       const normalizedMode = normalizeLibraryMode(nextMode);
@@ -245,44 +283,6 @@ export default function LibraryScreen({ navigation }) {
       setShelfItems([]);
     }
   }, []);
-
-  const loadCatalog = useCallback(
-    async (overrides = {}) => {
-      const nextQuery =
-        overrides.query !== undefined ? String(overrides.query || "").trim() : String(queryValue || "").trim();
-      const nextGenre =
-        overrides.genre !== undefined ? String(overrides.genre || "").trim() : String(selectedGenre || "").trim();
-      const nextPage = Number(overrides.page !== undefined ? overrides.page : page) || 1;
-
-      setLoading(true);
-      try {
-        const data = await fetchBookCatalog({
-          q: nextQuery || DEFAULT_QUERY,
-          subject: nextGenre || undefined,
-          page: nextPage,
-          limit: DEFAULT_LIMIT,
-        });
-
-        const normalizedItems = (Array.isArray(data?.items) ? data.items : []).map((item) => normalizeBook(item));
-        setCatalogItems(normalizedItems);
-        setGenres(Array.isArray(data?.genres) ? data.genres.slice(0, 18) : []);
-        setHasMore(Boolean(data?.has_more));
-        setCatalogTotal(Number(data?.total) || 0);
-      } catch (error) {
-        setCatalogItems([]);
-        setGenres([]);
-        setHasMore(false);
-        setCatalogTotal(0);
-        if (!overrides.silent) {
-          const userMessage = error?.response?.data?.error || t("unknownError");
-          Alert.alert(t("library"), userMessage);
-        }
-      } finally {
-        setLoading(false);
-      }
-    },
-    [page, queryValue, selectedGenre, t]
-  );
 
   const bootstrap = useCallback(async () => {
     await Promise.all([loadLocalBooks(), loadShelf()]);
